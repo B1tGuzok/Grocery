@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="58dd75c0ebea4321a419b976a9a0fac7" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="GroceryDBModel.Order" Width="1.5" PointX="1.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GroceryDBModel.PositionsInOrder" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GroceryDBModel.Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="GroceryDBModel.Role" Width="1.5" PointX="3.125" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GroceryDBModel.Supplier" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="GroceryDBModel.User" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="GroceryDBModel.FK_PositionsInOrder_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="GroceryDBModel.FK_PositionsInOrder_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="GroceryDBModel.FK_Products_Suppliers" ManuallyRouted="false" />
+        <AssociationConnector Association="GroceryDBModel.FK_Users_Roles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

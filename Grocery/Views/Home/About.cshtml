@@ -1,0 +1,201 @@
+﻿<main aria-labelledby="title" class="about-page">
+    <div class="about-container">
+        <div class="about-header">
+            <h1 id="title" class="about-title">О нас</h1>
+            <p class="about-subtitle">Наша история и ценности</p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-card">
+                <div class="about-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="#3498db"><path d="M96 0C43 0 0 43 0 96L0 416c0 53 43 96 96 96l288 0 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-64c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L384 0 96 0zm0 384l256 0 0 64L96 448c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16zm16 48l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z" /></svg>
+                </div>
+                <div class="about-card-text">
+                    <h2>Наша история</h2>
+                    <p>Бакалейная лавка "B1tery" была основана в 2010 году с любовью к качественным продуктам и традициям. Начиная с небольшого магазинчика в центре Москвы, мы выросли в сеть, сохраняя при этом дух уютного семейного бизнеса.</p>
+                </div>
+            </div>
+
+            <div class="about-card">
+                <div class="about-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="#3498db"><path d="M320 32c-8.1 0-16.1 1.4-23.7 4.1L15.8 137.4C6.3 140.9 0 149.9 0 160s6.3 19.1 15.8 22.6l57.9 20.9C57.3 229.3 48 259.8 48 291.9l0 28.1c0 28.4-10.8 57.7-22.3 80.8c-6.5 13-13.9 25.8-22.5 37.6C0 442.7-.9 448.3 .9 453.4s6 8.9 11.2 10.2l64 16c4.2 1.1 8.7 .3 12.4-2s6.3-6.1 7.1-10.4c8.6-42.8 4.3-81.2-2.1-108.7C90.3 344.3 86 329.8 80 316.5l0-24.6c0-30.2 10.2-58.7 27.9-81.5c12.9-15.5 29.6-28 49.2-35.7l157-61.7c8.2-3.2 17.5 .8 20.7 9s-.8 17.5-9 20.7l-157 61.7c-12.4 4.9-23.3 12.4-32.2 21.6l159.6 57.6c7.6 2.7 15.6 4.1 23.7 4.1s16.1-1.4 23.7-4.1L624.2 182.6c9.5-3.4 15.8-12.5 15.8-22.6s-6.3-19.1-15.8-22.6L343.7 36.1C336.1 33.4 328.1 32 320 32zM128 408c0 35.3 86 72 192 72s192-36.7 192-72L496.7 262.6 354.5 314c-11.1 4-22.8 6-34.5 6s-23.5-2-34.5-6L143.3 262.6 128 408z" /></svg>
+                </div>
+                <div class="about-card-text">
+                    <h2>Наша философия</h2>
+                    <p>Мы верим, что хорошая еда начинается с качественных ингредиентов. Поэтому мы тщательно отбираем поставщиков, отдавая предпочтение локальным производителям и экологически чистым продуктам.</p>
+                </div>
+            </div>
+
+            <div class="about-team">
+                <h2>Наша команда</h2>
+                <p>Наши сотрудники - это не просто продавцы, а настоящие эксперты в продуктах питания. Они всегда помогут с выбором и поделятся интересными рецептами.</p>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="@Url.Content("~/Content/images/team/olga.png")" alt="Ольга" class="member-photo">
+                        <h3>Ольга</h3>
+                        <p>Продавец</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="@Url.Content("~/Content/images/team/nikolai.png")" alt="Николай" class="member-photo">
+                        <h3>Николай</h3>
+                        <p>Администратор</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="@Url.Content("~/Content/images/team/tolyan.jpg")" alt="Анатолий" class="member-photo">
+                        <h3>Анатолий</h3>
+                        <p>Продавец</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    .about-page {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        color: #333;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        line-height: 1.6;
+    }
+
+    .about-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .about-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .about-subtitle {
+        font-size: 1.25rem;
+        color: #7f8c8d;
+    }
+
+    .about-content {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .about-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: flex-start;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .about-card-icon {
+        margin-right: 1.5rem;
+        color: #3498db;
+        flex-shrink: 0;
+        background: #f0f8ff;
+        padding: 1rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .about-card-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+    .about-card-text h2 {
+        font-size: 1.5rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+
+    .about-team {
+        margin-top: 4rem;
+        background: #f9f9f9;
+        padding: 2rem;
+        border-radius: 12px;
+    }
+
+        .about-team h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-team p {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .team-member {
+        text-align: center;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+    }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+    .member-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        object-fit: cover;
+    }
+
+    .team-member h3 {
+        margin: 0.5rem 0;
+        color: #2c3e50;
+        font-size: 1.2rem;
+    }
+
+    .team-member p {
+        color: #7f8c8d;
+        margin: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .about-title {
+            font-size: 2rem;
+        }
+
+        .about-card {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .about-card-icon {
+            margin-right: 0;
+            margin-bottom: 1rem;
+            align-self: center;
+        }
+    }
+</style>

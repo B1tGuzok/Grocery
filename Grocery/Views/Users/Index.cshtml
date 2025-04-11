@@ -1,0 +1,343 @@
+﻿@model IEnumerable<Grocery.Models.User>
+
+@{
+    ViewBag.Title = "Управление пользователями";
+}
+
+<div class="container-fluid">
+    <h2>Управление пользователями</h2>
+
+    <div class="table-responsive mb-4" style="height: 50vh; overflow-y: auto;">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light" style="position: sticky; top: 0; z-index: 1; background-color: #e0f2f7; ">
+                <tr>
+                    <th>ID</th>
+                    <th>Логин</th>
+                    <th>
+                        <span style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                            @Html.ActionLink("Имя", "Index", new { sortOrder = ViewBag.NameSortParm, searchString = ViewBag.CurrentUserFilter }, new { style = "text-decoration: none; color: inherit;" })
+                            @if (ViewBag.NameSortParm == "name_desc")
+                            {
+                                <i class="fas fa-sort-down ml-1"></i>
+                            }
+                            else if (!String.IsNullOrEmpty(ViewBag.NameSortParm))
+                            {
+                                <i class="fas fa-sort-up ml-1"></i>
+                            }
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter ml-1" viewBox="0 0 16 16">
+                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                            @Html.ActionLink("Фамилия", "Index", new { sortOrder = ViewBag.SurnameSortParm, searchString = ViewBag.CurrentUserFilter }, new { style = "text-decoration: none; color: inherit;" })
+                            @if (ViewBag.SurnameSortParm == "surname_desc")
+                            {
+                                <i class="fas fa-sort-down ml-1"></i>
+                            }
+                            else if (ViewBag.SurnameSortParm == "Surname")
+                            {
+                                <i class="fas fa-sort-up ml-1"></i>
+                            }
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter ml-1" viewBox="0 0 16 16">
+                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </span>
+                    </th>
+                    <th>Пароль</th>
+                    <th>
+                        <span style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                            @Html.ActionLink("ID Роли", "Index", new { sortOrder = ViewBag.RoleSortParm, searchString = ViewBag.CurrentUserFilter }, new { style = "text-decoration: none; color: inherit;" })
+                            @if (ViewBag.RoleSortParm == "role_desc")
+                            {
+                                <i class="fas fa-sort-down ml-1"></i>
+                            }
+                            else if (ViewBag.RoleSortParm == "Role")
+                            {
+                                <i class="fas fa-sort-up ml-1"></i>
+                            }
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter ml-1" viewBox="0 0 16 16">
+                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="user-row" data-id="@item.UserId"
+                            data-login="@item.Login"
+                            data-name="@item.Name"
+                            data-surname="@item.Surname"
+                            data-password="@item.Password"
+                            data-roleid="@item.RoleId">
+                            <td>@item.UserId</td>
+                            <td>@item.Login</td>
+                            <td>@item.Name</td>
+                            <td>@item.Surname</td>
+                            <td>@item.Password</td>
+                            <td>@item.RoleId</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">Пользователей не найдено</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="operations-container">
+        <div class="operation-group mb-4">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", id = "editForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-flex align-items-center">
+                    @Html.TextBox("UserId", null, new { @class = "form-control", id = "editUserId", placeholder = "ID", required = "required", style = "width: 50px;" })
+                    @Html.TextBox("Login", null, new { @class = "form-control ml-2", id = "editUserLogin", placeholder = "Логин", required = "required" })
+                    @Html.TextBox("Name", null, new { @class = "form-control ml-2", id = "editUserName", placeholder = "Имя" })
+                    @Html.TextBox("Surname", null, new { @class = "form-control ml-2", id = "editUserSurname", placeholder = "Фамилия" })
+                    @Html.TextBox("Password", null, new { @class = "form-control ml-2", id = "editUserPassword", placeholder = "Пароль" })
+                    @Html.TextBox("RoleId", null, new { @class = "form-control ml-2", id = "editUserRoleId", placeholder = "ID Роли", required = "required" })
+                    <button type="submit" class="btn btn-primary ml-2" id="editButton">Изменить</button>
+                </div>
+                @Html.ValidationMessage("Login", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("Name", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("Surname", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("Password", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("RoleId", "", new { @class = "text-danger" })
+            }
+        </div>
+
+        <div class="operation-group mb-4">
+            @using (Html.BeginForm("Create", "Users", FormMethod.Post, new { @class = "form-inline" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-flex align-items-center">
+                    @Html.TextBox("Login", null, new { @class = "form-control", placeholder = "Логин", required = "required" })
+                    @Html.TextBox("Name", null, new { @class = "form-control ml-2", placeholder = "Имя" })
+                    @Html.TextBox("Surname", null, new { @class = "form-control ml-2", placeholder = "Фамилия" })
+                    @Html.TextBox("Password", null, new { @class = "form-control ml-2", placeholder = "Пароль", required = "required" })
+                    @Html.TextBox("RoleId", null, new { @class = "form-control ml-2", placeholder = "ID Роли", required = "required" })
+                    <button type="submit" class="btn btn-success ml-2">Добавить</button>
+                </div>
+                @Html.ValidationMessage("Login", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("Name", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("Surname", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("Password", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("RoleId", "", new { @class = "text-danger" })
+            }
+        </div>
+
+        <div class="operation-group">
+            <div class="d-flex align-items-center">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline mr-3", id = "deleteForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="d-flex align-items-center">
+                        @Html.TextBox("UserId", null, new { @class = "form-control", id = "deleteUserId", placeholder = "ID", required = "required", style = "width: 50px;" })
+                        <button type="submit" class="btn btn-danger ml-2" id="deleteButton">Удалить</button>
+                    </div>
+                }
+
+                @using (Html.BeginForm("Index", "Users", FormMethod.Get, new { @class = "form-inline" }))
+                {
+                    <div class="d-flex align-items-center ml-3">
+                        @Html.TextBox("searchString", ViewBag.CurrentUserFilter as string, new { @class = "form-control", placeholder = "Поиск по фамилии" })
+                        <button type="submit" class="btn btn-secondary ml-2">Найти</button>
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary ml-2 mr-2">Сбросить</a>
+                        <button id="exportExcelBtn" class="btn btn-success py-1 px-2 ml-2" style="height: 38px;">
+                            <i class="fas fa-file-excel mr-1"></i>Экспорт
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Очистка полей ID роли при загрузке страницы
+            $('#editUserRoleId').val('');
+            $('form[action*="Create"] input[name="RoleId"]').val('');
+
+            // Выделение строки и заполнение формы
+            $('.user-row').click(function () {
+                $('.user-row').removeClass('table-active');
+                $(this).addClass('table-active');
+
+                var id = $(this).data('id');
+                var login = $(this).data('login');
+                var name = $(this).data('name');
+                var surname = $(this).data('surname');
+                var password = $(this).data('password');
+                var roleid = $(this).data('roleid');
+
+                $('#editUserId').val(id);
+                $('#editUserLogin').val(login);
+                $('#editUserName').val(name);
+                $('#editUserSurname').val(surname);
+                $('#editUserPassword').val(password);
+                $('#editUserRoleId').val(roleid);
+                $('#deleteUserId').val(id);
+            });
+
+            // Обработка формы редактирования
+            $('#editForm').submit(function (e) {
+                e.preventDefault();
+
+                var userId = $('#editUserId').val();
+                var formData = $(this).serialize();
+
+                if (!userId || isNaN(userId)) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Users/Edit/' + userId,
+                    type: 'POST',
+                    data: formData,
+                    success: function (result) {
+                        if (result.success) {
+                            var row = $('.user-row[data-id="' + userId + '"]');
+                            row.find('td:eq(1)').text($('#editUserLogin').val());
+                            row.find('td:eq(2)').text($('#editUserName').val());
+                            row.find('td:eq(3)').text($('#editUserSurname').val());
+                            row.find('td:eq(4)').text($('#editUserPassword').val());
+                            row.find('td:eq(5)').text($('#editUserRoleId').val()); // Обновляем ID роли в таблице
+
+                            // Обновляем data-атрибуты
+                            row.data('login', $('#editUserLogin').val());
+                            row.data('name', $('#editUserName').val());
+                            row.data('surname', $('#editUserSurname').val());
+                            row.data('password', $('#editUserPassword').val());
+                            row.data('roleid', $('#editUserRoleId').val());
+                        }
+                    },
+                    error: function () {
+                        // Ошибка сервера
+                    }
+                });
+            });
+
+            // Обработка формы удаления
+            $('#deleteForm').submit(function (e) {
+                e.preventDefault();
+
+                var userId = $('#deleteUserId').val();
+
+                if (!userId || isNaN(userId)) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Users/Delete/' + userId,
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('.user-row[data-id="' + userId + '"]').remove();
+                            $('#deleteUserId').val('');
+                        }
+                    },
+                    error: function () {
+                        // Ошибка сервера
+                    }
+                });
+            });
+
+            // Очистка формы после добавления
+            $('form[action*="Create"]').submit(function () {
+                if ($(this).valid()) {
+                    setTimeout(() => {
+                        $(this).find('input[type="text"]').val('');
+                        $(this).find('input[name="RoleId"]').val(''); // Очистка поля ID роли
+                    }, 100);
+                }
+            });
+        });
+        document.getElementById('exportExcelBtn').addEventListener('click', function () {
+            try {
+                // Создаем новую книгу Excel
+                var wb = XLSX.utils.book_new();
+
+                // Получаем таблицу
+                var table = document.querySelector('.table');
+
+                // Клонируем таблицу, чтобы не влиять на оригинал
+                var tableClone = table.cloneNode(true);
+
+                // Преобразуем таблицу в рабочий лист Excel
+                var ws = XLSX.utils.table_to_sheet(tableClone);
+
+                // Добавляем лист в книгу
+                XLSX.utils.book_append_sheet(wb, ws, "Пользователи");
+
+                // Сохраняем файл
+                XLSX.writeFile(wb, 'Пользователи.xlsx');
+            } catch (e) {
+                console.error('Ошибка при экспорте в Excel:', e);
+                alert('Произошла ошибка при экспорте в Excel. Проверьте консоль для подробностей.');
+            }
+        });
+    </script>
+}
+<style>
+    .user-row {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .user-row:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+        }
+
+    .table-active {
+        background-color: #e0f7fa !important;
+    }
+
+    .table-responsive {
+        border: 1px solid #dee2e6;
+    }
+
+    .operations-container {
+        margin-top: 20px;
+    }
+
+    .operation-group {
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+    .btn-outline-secondary {
+        margin-right: 8px !important; /* Или 0.5rem */
+    }
+    .ml-1 {
+        margin-left: 0.25rem !important; /* Для иконок сортировки и фильтра */
+    }
+
+    .ml-2 {
+        margin-left: 0.5rem !important;
+    }
+
+    .mr-3 {
+        margin-right: 1rem !important;
+    }
+
+    .form-control {
+        min-width: 150px;
+    }
+</style>

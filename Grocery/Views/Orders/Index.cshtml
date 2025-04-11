@@ -1,0 +1,318 @@
+﻿@model IEnumerable<Grocery.Models.Order>
+
+@{
+    ViewBag.Title = "Управление заказами";
+}
+
+<div class="container-fluid">
+    <h2>Управление заказами</h2>
+
+    <div class="table-responsive mb-4" style="height: 50vh; overflow-y: auto; border: 1px solid #dee2e6;">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light" style="position: sticky; top: 0; z-index: 1; background-color: #e0f2f7;">
+                <tr>
+                    <th>ID</th>
+                    <th>
+                        <span style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                            @Html.ActionLink("Дата заказа", "Index", new { sortOrder = ViewBag.OrderDateSortParm }, new { style = "text-decoration: none; color: inherit;" })
+                            @if (ViewBag.OrderDateSortParm == "OrderDate_desc")
+                            {
+                                <i class="fas fa-sort-down ml-1"></i>
+                            }
+                            else if (!String.IsNullOrEmpty(ViewBag.OrderDateSortParm))
+                            {
+                                <i class="fas fa-sort-up ml-1"></i>
+                            }
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter ml-1" viewBox="0 0 16 16">
+                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                            @Html.ActionLink("Дата доставки", "Index", new { sortOrder = ViewBag.DeliveryDateSortParm }, new { style = "text-decoration: none; color: inherit;" })
+                            @if (ViewBag.DeliveryDateSortParm == "DeliveryDate_desc")
+                            {
+                                <i class="fas fa-sort-down ml-1"></i>
+                            }
+                            else if (ViewBag.DeliveryDateSortParm == "DeliveryDate")
+                            {
+                                <i class="fas fa-sort-up ml-1"></i>
+                            }
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter ml-1" viewBox="0 0 16 16">
+                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="order-row" data-id="@item.OrderId"
+                            data-orderdate="@item.OrderDate"
+                            data-deliverydate="@item.DeliveryDate">
+                            <td>@item.OrderId</td>
+                            <td>@(((DateTime)item.OrderDate).ToString("dd.MM.yyyy"))</td>
+                            <td>@(((DateTime)item.DeliveryDate).ToString("dd.MM.yyyy"))</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">Заказы не найдены</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="operations-container">
+        <div class="operation-group mb-4">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", id = "editForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-flex align-items-center">
+                    @Html.TextBox("OrderId", null, new { @class = "form-control", id = "editOrderId", placeholder = "ID", required = "required", style = "width: 50px;", @readonly = "readonly" })
+                    @Html.TextBox("OrderDate", null, new { @class = "form-control ml-2", id = "editOrderDate", type = "date" })
+                    @Html.TextBox("DeliveryDate", null, new { @class = "form-control ml-2", id = "editDeliveryDate", type = "date" })
+                    <button type="button" class="btn btn-primary ml-2" id="editButton">Изменить</button>
+                </div>
+            }
+        </div>
+
+        <div class="operation-group mb-4">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", id = "createForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-flex align-items-center">
+                    @Html.TextBox("OrderDate", null, new { @class = "form-control", type = "date", required = "required", id = "createOrderDate" })
+                    @Html.TextBox("DeliveryDate", null, new { @class = "form-control ml-2", type = "date", required = "required", id = "createDeliveryDate" })
+                    <button type="button" class="btn btn-success ml-2" id="createButton">Добавить</button>
+                </div>
+            }
+        </div>
+
+        <div class="operation-group">
+            <div class="d-flex align-items-center">
+                @using (Html.BeginForm("Delete", "Orders", FormMethod.Post, new { @class = "form-inline mr-3", id = "deleteForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="d-flex align-items-center">
+                        @Html.TextBox("orderId", null, new { @class = "form-control", id = "deleteOrderId", placeholder = "ID", required = "required", style = "width: 50px;" })
+                        <button type="button" class="btn btn-danger ml-2" id="deleteButton" style="margin-right: 10px;">Удалить</button>
+                    </div>
+                }
+
+                @using (Html.BeginForm("Index", "Orders", FormMethod.Get, new { @class = "form-inline" }))
+                {
+                    <div class="d-flex align-items-center ml-3">
+                        @Html.TextBox("searchOrderDate", ViewBag.CurrentOrderDateFilter as string, new { @class = "form-control", type = "date", placeholder = "Поиск по дате" })
+                        <button type="submit" class="btn btn-secondary ml-2">Найти</button>
+                        <a href="@Url.Action("Index")" class="btn btn-outline-secondary ml-2">Сбросить</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('.order-row').click(function () {
+                $('.order-row').removeClass('table-active');
+                $(this).addClass('table-active');
+
+                var id = $(this).data('id');
+                var orderDate = $(this).data('orderdate');
+                var deliveryDate = $(this).data('deliverydate');
+
+                $('#editOrderId').val(id);
+                $('#editOrderDate').val(orderDate ? orderDate.split('T')[0] : '');
+                $('#editDeliveryDate').val(deliveryDate ? deliveryDate.split('T')[0] : '');
+                $('#deleteOrderId').val(id);
+            });
+
+            $('#deleteButton').click(function () {
+                var orderId = $('#deleteOrderId').val();
+
+                if (isNaN(orderId) || orderId === '') {
+                    $('#deleteOrderId').val('');
+                    alert('Пожалуйста, введите корректный ID заказа.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Orders/Delete',
+                    type: 'POST',
+                    data: { orderId: orderId, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+                    success: function (result) {
+                        if (result.success) {
+                            $('.order-row[data-id="' + orderId + '"]').remove();
+                            $('#deleteOrderId').val('');
+                        } else {
+                            $('#deleteOrderId').val('');
+                            alert(result.message || 'Не удалось удалить заказ.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('#deleteOrderId').val('');
+                        if (xhr.status === 404) {
+                            alert('Заказ с указанным ID не найден.');
+                        } else {
+                            alert('Произошла ошибка при удалении заказа: ' + error);
+                        }
+                    }
+                });
+            });
+
+            $('#editButton').click(function () {
+                var orderId = $('#editOrderId').val();
+                var orderDate = $('#editOrderDate').val();
+                var deliveryDate = $('#editDeliveryDate').val();
+
+                if (isNaN(orderId) || orderId === '' || orderDate === '' || deliveryDate === '') {
+                    $('#editOrderId').val('');
+                    $('#editOrderDate').val('');
+                    $('#editDeliveryDate').val('');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Orders/Edit/' + orderId,
+                    type: 'POST',
+                    data: {
+                        OrderId: orderId,
+                        OrderDate: orderDate,
+                        DeliveryDate: deliveryDate,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            var rowToUpdate = $('.order-row[data-id="' + orderId + '"]');
+                            if (rowToUpdate.length > 0) {
+                                rowToUpdate.find('td:nth-child(2)').text(new Date(orderDate).toLocaleDateString('ru-RU'));
+                                rowToUpdate.find('td:nth-child(3)').text(new Date(deliveryDate).toLocaleDateString('ru-RU'));
+                                rowToUpdate.data('orderdate', orderDate);
+                                rowToUpdate.data('deliverydate', deliveryDate);
+                            }
+                            $('#editOrderId').val('');
+                            $('#editOrderDate').val('');
+                            $('#editDeliveryDate').val('');
+                        } else {
+                            $('#editOrderId').val('');
+                            $('#editOrderDate').val('');
+                            $('#editDeliveryDate').val('');
+                            // Можно добавить сообщение об ошибке, если нужно
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('#editOrderId').val('');
+                        $('#editOrderDate').val('');
+                        $('#editDeliveryDate').val('');
+                        // Можно добавить сообщение об ошибке, если нужно
+                    }
+                });
+            });
+
+            $('#createButton').click(function () {
+                var orderDate = $('#createOrderDate').val();
+                var deliveryDate = $('#createDeliveryDate').val();
+
+                if (orderDate === '' || deliveryDate === '') {
+                    $('#createOrderDate').val('');
+                    $('#createDeliveryDate').val('');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Orders/Create',
+                    type: 'POST',
+                    data: {
+                        OrderDate: orderDate,
+                        DeliveryDate: deliveryDate,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.reload();
+                            $('#createOrderDate').val('');
+                            $('#createDeliveryDate').val('');
+                        } else {
+                            $('#createOrderDate').val('');
+                            $('#createDeliveryDate').val('');
+                            // Можно добавить сообщение об ошибке, если нужно
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('#createOrderDate').val('');
+                        $('#createDeliveryDate').val('');
+                        // Можно добавить сообщение об ошибке, если нужно
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<style>
+    .order-row {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .order-row:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+        }
+
+    .table-active {
+        background-color: #e0f7fa !important;
+    }
+
+    .operations-container {
+        margin-top: 20px;
+    }
+
+    .operation-group {
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+
+    .ml-1 {
+        margin-left: 0.25rem !important; /* Для иконок сортировки */
+    }
+
+    .ml-2 {
+        margin-left: 0.5rem !important;
+    }
+
+    .form-control {
+        min-width: 150px;
+    }
+
+    th {
+        position: relative;
+    }
+
+        th::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 1px;
+            background-color: #dee2e6; /* Цвет разделительной линии, как у границ таблицы */
+        }
+
+        /* Убираем полоску у последнего столбца */
+        th:last-child::after {
+            display: none;
+        }
+</style>
